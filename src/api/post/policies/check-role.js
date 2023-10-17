@@ -5,7 +5,6 @@
  */
 
 module.exports = (policyContext, config, { strapi }) => {
-  console.info(config);
   const { userRole } = config;
   const isElibleUser =
     policyContext.state.user && policyContext.state.user.role.code === userRole;
