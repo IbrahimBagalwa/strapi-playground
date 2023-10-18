@@ -8,6 +8,9 @@ const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController("api::post.post", ({ strapi }) => ({
   async exampleAction(ctx) {
+    await strapi
+      .service("api::post.post")
+      .exampleService({ myParms: "Example Parameters" });
     try {
       ctx.body = "ok";
     } catch (error) {
@@ -28,8 +31,6 @@ module.exports = createCoreController("api::post.post", ({ strapi }) => ({
     const { query } = ctx;
     const entity = await strapi.service("api::post.post").findOne(id, query);
     const sanitazedEntity = await this.sanitizeOutput(entity, ctx);
-    const { data, meta } = this.transformResponse(sanitazedEntity);
-    meta.date = new Date().toLocaleDateString();
-    return { data, meta };
+    return this.transformResponse(sanitazedEntity);
   },
 }));
